@@ -1,4 +1,4 @@
-// Définition des broches
+// LEDs PINS DEFINITION
 const int ledPins[6] = {3, 5, 6, 9, 10, 11};
 int brightness[6] = {0, 0, 0, 0, 0, 0};
 
@@ -13,9 +13,8 @@ void setup() {
 void loop() {
   if (Serial.available()) {
     String input = Serial.readStringUntil('\n');
-    input.trim(); // Supprimer espaces/retours à la ligne
-
-    // Exemple de commande : L1:128
+    input.trim(); 
+// COMMAND DEFINITION
     if (input.startsWith("L") && input.indexOf(':') > 1) {
       int ledIndex = input.substring(1, input.indexOf(':')).toInt();
       int value = input.substring(input.indexOf(':') + 1).toInt();
