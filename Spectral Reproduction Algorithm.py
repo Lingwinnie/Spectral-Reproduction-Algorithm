@@ -6,7 +6,7 @@ from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
 
 
-# === PARAMÈTRES ===
+# === PARAMETERS ===
 SERIAL_PORT = 'COM5'
 TARGET_PATH = r"C:\Users\vikas.jangjd\Desktop\Indoor spectrums\LEDs\salle manips\spctre 0.26W m^2 only neon sur banc 001.IRR"
 LIVE_FOLDER = r"C:\Users\vikas.jangjd\Desktop\source replik\datafeed"
@@ -265,4 +265,5 @@ plt.legend()
 plt.grid(True)
 plt.tight_layout()
 plt.show()
+
 
