@@ -78,7 +78,7 @@ The objective is being able to reproduce any type of light spectrum (on conditio
 - Bands never reach target: check LED emission wavelengths order, increase PWM, or change reference LED.  
 - If non-assigned band > threshold but closest LED is usable, the band remains ignored — reduce thresholds only if justified.
 
-## Author & source
+## Author 
 Lingwinnie — Master of Nanosciences and Nanotechnologies : Nanoscale and Quantum Engineering
 
 ## License
