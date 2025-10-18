@@ -6,6 +6,7 @@ from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
 
 
+
 #  PARAMETERS 
 SERIAL_PORT = 'COM5'
 TARGET_PATH = r" "
@@ -265,6 +266,7 @@ plt.legend()
 plt.grid(True)
 plt.tight_layout()
 plt.show()
+
 
 
 
