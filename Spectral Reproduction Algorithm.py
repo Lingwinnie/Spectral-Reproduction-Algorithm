@@ -6,7 +6,7 @@ from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
 
 
-# === PARAMETERS ===
+#  PARAMETERS 
 SERIAL_PORT = 'COM5'
 TARGET_PATH = r" "
 LIVE_FOLDER = r" "
@@ -19,7 +19,7 @@ LED_WAVELENGTHS = [460, 525, 545, 591, 610, 630]
 NB_LEDS = len(LED_WAVELENGTHS)
 PWM_REF = 50
 
-# === FUNCTIONS ===
+#  FUNCTIONS 
 def read_spectrum(filepath):
     wavelengths, intensities = [], []
     with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
@@ -93,7 +93,7 @@ def get_measured_spectrum():
         time.sleep(2)
     raise RuntimeError("Aucun spectre mesuré trouvé.")
 
-# === TARGET SPECTRUM ANALYSIS ===
+#  TARGET SPECTRUM ANALYSIS 
 print("reading target spectrum ...")
 wl_target, inten_target = read_spectrum(TARGET_PATH)
 wl_target, inten_target = filter_spectrum(wl_target, inten_target)
@@ -102,7 +102,7 @@ band_heights = decompose_into_bands(interp_target)
 ref_band_idx = np.argmax(band_heights)
 band_targets = band_heights / band_heights[ref_band_idx]
 
-# LED-band assignment
+# LED-band ASSIGNMENT
 led_band_map = {}
 for i, led_wl in enumerate(LED_WAVELENGTHS):
     band_idx = int((led_wl - WL_MIN) // BAND_WIDTH)
@@ -116,7 +116,7 @@ print(f" Reference LED : LED {ref_led+1} ({LED_WAVELENGTHS[ref_led]} nm) in band
 for idx in sorted(set(led_band_map.values())):
     print(f"Band {idx} : Relative height = {band_targets[idx]:.3f}")
 
-# === ALLUMAGE LED RÉFÉRENCE ===
+#  ALLUMAGE LED RÉFÉRENCE 
 print("Connection to Arduino...")
 ser = serial.Serial(SERIAL_PORT, 9600, timeout=1)
 time.sleep(2)
@@ -140,7 +140,7 @@ for i, b_idx in led_band_map.items():
     print(f"LED {i+1} (band {b_idx}) : Raw intensity wanted = {target:.3e} µW/cm^2")
 
 
-#=== optimisation secondary LEDs ===
+#  OPTIMIZATION SECONDARY LEDs 
 
 print("\n=== Negligible secondary LEDs filtering ===")
 usable_leds = []
@@ -162,7 +162,7 @@ print(f"Ignored LEDs (band < 0.1) : {[i+1 for i in ignored_leds]}")
 print(f"Preserved LEDs for optimisation : {[i+1 for i in usable_leds]}")
 time.sleep(1.5)
 
-# === Reassignment of ignored LEDs if high peaks (> 0.2) ===
+#  REASSIGNMENT OF IGNORED LEDs IF HIGH PEAKS (> 0.2) 
 print("\n=== Reassignment of ignored LEDs to other high bands ===")
 assigned_bands = set(led_band_map.values())
 
@@ -182,7 +182,7 @@ for b_idx, rel_h in enumerate(band_targets):
         print(f"  Band {b_idx} (h={rel_h:.2f}) reassigned to LED {best_led+1} ({LED_WAVELENGTHS[best_led]} nm)")
 reassigned_leds = usable_leds.copy()
 
-# === Optimisation preserved secondary LEDs ===
+#  OPTIMIZATION PERSEVERED SECONDARY LEDs 
 print("\n=== Optimisation secondary LEDs ===")
 
 MIN_STEP      = 10
@@ -240,7 +240,7 @@ ser.close()
 
 
 
-# === FINAL ACQUISITION FOR VISUAL COMPARISON ===
+#  FINAL ACQUISITION FOR VISUAL COMPARISON 
 print("\nFinal acquisition for visual comparison")
 time.sleep(3)
 wl_final, inten_final = get_measured_spectrum()
@@ -253,7 +253,7 @@ interp_target = np.clip(interp_target, 0, None)
 interp_target_norm = interp_target / np.max(interp_target)
 interp_final_norm = interp_final / np.max(interp_final)
 
-# === PLOT ===
+#  PLOT 
 plt.figure(figsize=(10, 6))
 plt.plot(INTERP_GRID, interp_target_norm, label='Reference Spectrum (Normalized)', color='blue', linewidth=2)
 plt.plot(INTERP_GRID, interp_final_norm, label='Experimental Spectrum (Normalized)', color='red', linestyle='--', linewidth=2)
@@ -265,6 +265,7 @@ plt.legend()
 plt.grid(True)
 plt.tight_layout()
 plt.show()
+
 
 
 
